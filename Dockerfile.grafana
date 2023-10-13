@@ -1,0 +1,8 @@
+# Use an official Grafana runtime as a parent image
+FROM grafana/grafana:latest
+
+
+# Expose port 3000 to the outside world
+EXPOSE 3000
+
+# Any additional Grafana configurations can be added here

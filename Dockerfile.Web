@@ -1,0 +1,22 @@
+# Use an official Nginx runtime as a parent image
+FROM nginx:latest
+
+# Instala Git en el contenedor
+RUN apt-get update && apt-get install -y git
+
+# Clona el repositorio de GitHub en el contenedor
+RUN rm -rf /usr/share/nginx/html && git clone https://github.com/alexlpda1420/Portfolio.git /usr/share/nginx/html
+
+# Copia el archivo default.conf personalizado al directorio de configuración de NGINX
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+# Copiar el archivo default
+#COPY default.conf /etc/nginx/conf.d/default.conf
+#COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80 to the outside world
+EXPOSE 80
+#EXPOSE 8080
+
+# Start Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]

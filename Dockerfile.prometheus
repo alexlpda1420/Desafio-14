@@ -1,0 +1,11 @@
+# Use an official Prometheus runtime as a parent image
+FROM prom/prometheus:latest
+
+# Copy your Prometheus configuration file to the container
+COPY prometheus.yml /etc/prometheus/prometheus.yml
+
+# Expose port 9090 to the outside world
+EXPOSE 9090
+
+# Start Prometheus
+CMD ["--config.file=/etc/prometheus/prometheus.yml"]
