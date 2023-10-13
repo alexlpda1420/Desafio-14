@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    image: alexlpda1420/web  # La imagen de nuestra web que creamos y subimos a Docker Hub
+    ports:
+      - "8080:80"
+
+  prometheus:
+    image: alexlpda1420/prometheus # La imagen de prometheus que creamos y subimos a Docker Hub
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Montamos el archivo de configuración Prometheus
+
+  grafana:
+    image: alexlpda1420/grafana # La imagen de grafana que creamos y subimos a Docker Hub
+    ports:
+      - "3000:3000"
+  networks:
+    My-Net:
+      driver: bridge
