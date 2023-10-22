@@ -2,6 +2,7 @@
 FROM nginx:latest
 
 # Instalamos las dependencias de Git en el contenedor
+RUN apt update && apt upgrade -y
 RUN apt-get update && apt-get install -y git
 
 # Clonamos el repositorio de GitHub en el contenedor
