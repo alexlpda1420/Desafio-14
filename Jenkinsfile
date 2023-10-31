@@ -18,6 +18,14 @@ pipeline {
             }
         }
 
+        stage('Verificacion con Docker Dive'){
+            steps{
+                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_WEB}:latest"
+                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_PROM}:latest"
+                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_GRAF}:latest"
+            }
+        }
+
         stage('Login a Dockerhub'){
             steps{
                 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin "
@@ -54,17 +62,7 @@ pipeline {
             steps{
                 sh "docker exec web curl http://localhost:8080/nginx_status"
             }
-        }
-  
-      
-
-        /* stage('Verificacion con Docker Dive'){
-            steps{
-                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_WEB}:latest"
-                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_PROM}:latest"
-                sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_GRAF}:latest"
-             } */
-        
+        }       
 
     }
 }
