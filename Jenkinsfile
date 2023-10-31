@@ -24,8 +24,9 @@ pipeline {
                     def dockerHubCredentials = credentials('dockerhub')
                     withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                         sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                    }
+                }
             }
-        
         }
 
   
