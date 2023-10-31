@@ -49,6 +49,12 @@ pipeline {
             }
         
         }
+
+        stage('Prueba de contenedor'){
+            steps{
+                sh "docker exec -it web curl http://localhost:8080/nginx_status"
+            }
+        }
   
       
 
