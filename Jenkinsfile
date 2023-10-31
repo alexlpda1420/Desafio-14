@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment{
-        DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
         DOCKERHUB_REPO = 'alexlpda1420'
         DOCKER_IMAGE_WEB = 'web'
         DOCKER_IMAGE_PROM ='prometheus'
@@ -18,12 +17,22 @@ pipeline {
             }
         }
 
-        stage('Verificacion con Docker Dive'){
+        stage('Login DockerHub'){
+            steps{
+                script {
+                    def dockerHubCredentials = credentials('dockerhub')
+                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                    }
+                }
+            }
+        }
+        /* stage('Verificacion con Docker Dive'){
             steps{
                 sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_WEB}:latest"
                 sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_PROM}:latest"
                 sh "docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest ${env.DOCKER_IMAGE_GRAF}:latest"
-             }
+             } */
         }
 
     }
