@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        // DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
         DOCKERHUB_REPO = 'alexlpda1420'
         DOCKER_IMAGE_WEB = 'web'
         DOCKER_IMAGE_PROM ='prometheus'
@@ -16,6 +16,13 @@ pipeline {
                     sh "docker build -t ${env.DOCKER_IMAGE_PROM} -f Dockerfile.prometheus ."
                     sh "docker build -t ${env.DOCKER_IMAGE_GRAF} -f Dockerfile.grafana ."         
             }
+        }
+
+        stage('Login a Dockerhub'){
+            steps{
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+            }
+
         }
 
         stage('Definir tags'){
