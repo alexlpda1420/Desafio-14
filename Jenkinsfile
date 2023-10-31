@@ -40,6 +40,15 @@ pipeline {
                 sh "docker push ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_GRAF}:${env.TAG_JENKINS}-${BUILD_ID}"
             }
         }
+
+        stage('Ejecutar Imagenes DockerHub'){
+            steps{
+                sh "docker run -d -p 8080:8080 --name ${env.DOCKER_IMAGE_WEB} ${env.DOCKER_IMAGE_WEB}"
+                sh "docker run -d -p 9090:9090 --name ${env.DOCKER_IMAGE_PROM} ${env.DOCKER_IMAGE_PROM}"
+                sh "docker run -d -p 3000:3000 --name ${env.DOCKER_IMAGE_GRAF} ${env.DOCKER_IMAGE_GRAF}"
+            }
+        
+        }
   
       
 
