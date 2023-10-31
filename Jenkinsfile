@@ -18,17 +18,21 @@ pipeline {
             }
         }
 
-        stage('Login a DockerHub'){
+        stage('Definir tags'){
             steps{
-                script {
-                    def dockerHubCredentials = credentials('dockerhub')
-                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
-                    }
-                }
+                sh "docker tag ${env.DOCKER_IMAGE_WEB} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_WEB}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker tag ${env.DOCKER_IMAGE_PROM} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_PROM}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker tag ${env.DOCKER_IMAGE_GRAF} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_GRAF}:${env.TAG_JENKINS}-${BUILD_ID}"
             }
         }
 
+        stage('Subir imagenes a DockerHub'){
+            steps{
+                sh "docker push ${env.DOCKER_IMAGE_WEB} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_WEB}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker push ${env.DOCKER_IMAGE_PROM} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_PROM}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker push ${env.DOCKER_IMAGE_GRAF} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_GRAF}:${env.TAG_JENKINS}-${BUILD_ID}"
+            }
+        }
   
       
 
