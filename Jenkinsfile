@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    enviroment{
+    environment{
         DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
         DOCKERHUB_REPO = 'alexlpda1420'
         DOCKER_IMAGE_WEB = 'web'
@@ -12,11 +12,9 @@ pipeline {
     stages{
         stage('Creacion de Imagenes'){
             steps{
-                script{
                     sh "docker build -t ${env.DOCKER_IMAGE_WEB} -f Dockerfile.Web ."
                     sh "docker build -t ${env.DOCKER_IMAGE_PROM} -f Dockerfile.prometheus ."
-                    sh "docker build -t ${env.DOCKER_IMAGE_GRAF} -f Dockerfile.grafana ."
-                }
+                    sh "docker build -t ${env.DOCKER_IMAGE_GRAF} -f Dockerfile.grafana ."         
             }
         }
 
