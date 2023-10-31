@@ -28,9 +28,9 @@ pipeline {
 
         stage('Subir imagenes a DockerHub'){
             steps{
-                sh "docker push ${env.DOCKER_IMAGE_WEB} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_WEB}:${env.TAG_JENKINS}-${BUILD_ID}"
-                sh "docker push ${env.DOCKER_IMAGE_PROM} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_PROM}:${env.TAG_JENKINS}-${BUILD_ID}"
-                sh "docker push ${env.DOCKER_IMAGE_GRAF} ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_GRAF}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker push ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_WEB}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker push ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_PROM}:${env.TAG_JENKINS}-${BUILD_ID}"
+                sh "docker push ${env.DOCKERHUB_REPO}/${env.DOCKER_IMAGE_GRAF}:${env.TAG_JENKINS}-${BUILD_ID}"
             }
         }
   
