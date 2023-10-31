@@ -13,9 +13,9 @@ pipeline {
         stage('Creacion de Imagenes'){
             steps{
                 script{
-                    sh "docker build -t ${enviroment.DOCKER_IMAGE_WEB} -f Dockerfile.Web ."
-                    sh "docker build -t ${enviroment.DOCKER_IMAGE_PROM} -f Dockerfile.prometheus ."
-                    sh "docker build -t ${enviroment.DOCKER_IMAGE_GRAF} -f Dockerfile.grafana ."
+                    sh "docker build -t ${env.DOCKER_IMAGE_WEB} -f Dockerfile.Web ."
+                    sh "docker build -t ${env.DOCKER_IMAGE_PROM} -f Dockerfile.prometheus ."
+                    sh "docker build -t ${env.DOCKER_IMAGE_GRAF} -f Dockerfile.grafana ."
                 }
             }
         }
