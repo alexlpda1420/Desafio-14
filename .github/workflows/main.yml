@@ -1,0 +1,53 @@
+name: D15-Github-Action
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Build and push web
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.Web
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/web:${{github.run_number}}
+      -
+        name: Build and push prometheus
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.prometheus
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/prometheus:${{github.run_number}}
+      -
+        name: Build and push grafana
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.grafana
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/grafana:${{github.run_number}}
+
+          
+
+          
+          
+        
