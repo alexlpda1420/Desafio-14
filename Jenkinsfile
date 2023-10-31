@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
+        // DOCKERHUB_CREDENTIALS = credentials ('dockerhub')
         DOCKERHUB_REPO = 'alexlpda1420'
         DOCKER_IMAGE_WEB = 'web'
         DOCKER_IMAGE_PROM ='prometheus'
@@ -20,7 +20,10 @@ pipeline {
 
         stage('Login a DockerHub'){
             steps{
-                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin "
+                script {
+                    def dockerHubCredentials = credentials('dockerhub')
+                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
             }
         
         }
